@@ -8,6 +8,7 @@ pipeline {
   }
 
   environment {
+    CONAN_USER_HOME = "${env.WORKSPACE}"
     PROFILE_x86_64 = 'clang-6.0-linux-x86_64'
     PROFILE_x86 = 'clang-6.0-linux-x86'
     CPUS = """${sh(returnStdout: true, script: 'nproc')}"""
@@ -16,9 +17,16 @@ pipeline {
     PACKAGE = 'mender'
     USER = 'includeos'
     CHAN = 'test'
+    REMOTE = "${env.CONAN_REMOTE}"
+    BINTRAY_CREDS = credentials('devops-includeos-user-pass-bintray')
   }
 
   stages {
+    stage('Setup') {
+      steps {
+        sh script: "conan config install https://github.com/includeos/conan_config.git", label: "conan config install"
+      }
+    }
     stage('Pull Request pipeline') {
       when { changeRequest() }
       stages {
@@ -40,7 +48,7 @@ pipeline {
         stage('Build example') {
           steps {
             sh script: "mkdir -p build_example", label: "Setup"
-            sh script: "cd build_example; conan install ../example -pr $PROFILE_x86_64 -u", label: "conan_install"
+            sh script: "cd build_example; conan install ../example -pr $PROFILE_x86_64", label: "conan_install"
             sh script: "cd build_example; cmake ../example",label: "cmake configure"
             sh script: "cd build_example; make -j $CPUS", label: "building example"
           }
@@ -63,8 +71,9 @@ pipeline {
         stage('Upload to bintray') {
           steps {
             sh script: """
+              conan user -p $BINTRAY_CREDS_PSW -r $REMOTE $BINTRAY_CREDS_USR
               VERSION=\$(conan inspect -a version . | cut -d " " -f 2)
-              conan upload --all -r ${env.CONAN_REMOTE} $PACKAGE/\$VERSION@$USER/$CHAN
+              conan upload --all -r $REMOTE $PACKAGE/\$VERSION@$USER/$CHAN
             """, label: "Upload to bintray"
           }
         }
