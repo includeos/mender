@@ -1,0 +1,10 @@
+[requires]
+mender/[>=0.14.0,include_prerelease=True]@includeos/test
+
+[build_requires]
+vmbuild/0.13.0@includeos/test
+diskbuiler/[>=0.14.0]@includeos/test
+
+[generators]
+virtualenv
+cmake

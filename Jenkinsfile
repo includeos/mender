@@ -37,15 +37,14 @@ pipeline {
             build_conan_package("$PROFILE_x86_64")
           }
         }
-        /*
-        stage('build example') {
+        stage('Build example') {
           steps {
             sh script: "mkdir -p build_example", label: "Setup"
-            sh script: "cd build_example; conan install ../integration/simple -pr $PROFILE_x86_64 -u", label: "conan_install"
-            sh script: "cd build_example; cmake ../integration/simple",label: "cmake configure"
+            sh script: "cd build_example; conan install ../example -pr $PROFILE_x86_64 -u", label: "conan_install"
+            sh script: "cd build_example; cmake ../example",label: "cmake configure"
             sh script: "cd build_example; make -j $CPUS", label: "building example"
           }
-        }*/
+        }
       }
     }
     stage('Deploy package pipeline') {
