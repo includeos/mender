@@ -11,8 +11,6 @@ conan_basic_setup()
 include(os)
 
 os_add_executable(mender_demo "IncludeOS Mender Example" service.cpp)
-os_add_os_library(mender_demo mender)
-os_add_os_library(mender_demo liveupdate)
 os_add_drivers(mender_demo virtionet vmxnet3)
 
 os_diskbuilder(mender_demo disk)
