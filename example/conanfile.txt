@@ -1,0 +1,12 @@
+[requires]
+mender/[>=0.14.0,include_prerelease=True]@includeos/test
+liveupdate/[>=0.14.0,include_prerelease=True]@includeos/test
+botan/2.8.0@includeos/test
+
+[build_requires]
+vmbuild/[>=0.14.0,include_prerelease=True]@includeos/test
+diskbuilder/[>=0.14.0,include_prerelease=True]@includeos/test
+
+[generators]
+virtualenv
+cmake
