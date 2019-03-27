@@ -1,11 +1,11 @@
 [requires]
-mender/[>=0.14.0,include_prerelease=True]@includeos/test
-liveupdate/[>=0.14.0,include_prerelease=True]@includeos/test
-botan/2.8.0@includeos/test
+mender/[>=0.14.0,include_prerelease=True]@includeos/latest
+liveupdate/[>=0.14.0,include_prerelease=True]@includeos/latest
+botan/2.8.0@includeos/stable
 
 [build_requires]
-vmbuild/[>=0.14.0,include_prerelease=True]@includeos/test
-diskbuilder/[>=0.14.0,include_prerelease=True]@includeos/test
+vmbuild/[>=0.14.0,include_prerelease=True]@includeos/latest
+diskbuilder/[>=0.14.0,include_prerelease=True]@includeos/latest
 
 [generators]
 virtualenv
